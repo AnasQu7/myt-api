@@ -7,11 +7,11 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 
-// app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(cors())
 
-// app.use('/user',userRouter)
+app.use('/user',userRouter)
 app.use('/carousel',carouselRouter)
 app.use('/types',typeRouter)
 app.use('/products',productRouter)

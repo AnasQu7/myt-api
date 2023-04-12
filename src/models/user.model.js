@@ -5,12 +5,12 @@ const UserSchema = new mongoose.Schema({
     password : String,
     Company : String,
     Location : String,
+    cart : Array,
     role : {
         type: String,
         enum : ['user', 'merchant'],
         default: 'user'
     },
-    cart : [Object]
 })
 
 const UserModel = mongoose.model("users",UserSchema)
