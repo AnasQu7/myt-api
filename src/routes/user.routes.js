@@ -48,13 +48,12 @@ catch(e){
 
 userRouter.get('/autologin',async(req,res)=>{
     const token = req.headers["authorization"]
-    console.log(token)
     if(!token){
         return  res.status(401).send("Unauthorized")
     }
     try{
         const verification = await jwt.verify(token,"Secretababa")
-        const user = UserModel.findById(verification._id)
+        const user = await UserModel.findById(verification._id);
     if(user.email){
        return res.status(201).send("logged in")
     }}catch{
