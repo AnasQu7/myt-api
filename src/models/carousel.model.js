@@ -4,7 +4,9 @@ const CarouselSchema = new mongoose.Schema({
     img : String,
     description : String,
     title : String
-})
+},
+{ timestamps: true }
+)
 
 const CarouselModel = mongoose.model("carousel",CarouselSchema)
  

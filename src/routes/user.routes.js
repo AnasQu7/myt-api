@@ -76,4 +76,32 @@ userRouter.get('/userDetails',async(req,res)=>{
         return res.status(498).send("session expired")
     }
 })
+
+
+// admin login
+userRouter.post('/admin/login' ,async(req,res)=>{
+    let body = req.body
+    let user = await UserModel.findOne({email : body.email , password : body.password}) 
+    if(!user){
+        return res.status(401).send("Invalid Credentials")
+    }
+   try{ 
+    const token = jwt.sign({
+        _id : user._id,
+        email : user.email,
+       Company : user.Company,
+       Location : user.Location,
+       role : user.role
+    },
+    "admn9335secret",
+    {expiresIn : "1 days"}
+    )
+
+    res.status(201).send({token,message:"Login Successful"})
+}
+catch(e){
+    return res.status(401).send(e.message)
+}
+} )
+
 module.exports = userRouter

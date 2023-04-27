@@ -6,6 +6,8 @@ const cors = require('cors')
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const adminRouter = require('./routes/admin.routes')
+const AuthCheck = require('./utils/middlewares/AuthCheck')
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
@@ -15,6 +17,12 @@ app.use('/user',userRouter)
 app.use('/carousel',carouselRouter)
 app.use('/types',typeRouter)
 app.use('/products',productRouter)
+
+
+// admin use
+app.use(AuthCheck)
+app.use("/admin",adminRouter)
+
 
 mongoose.set("strictQuery", false);
 

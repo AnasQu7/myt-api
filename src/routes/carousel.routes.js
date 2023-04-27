@@ -2,19 +2,18 @@ const { Router } = require('express');
 const carouselRouter = Router()
 const carouselModel = require('../models/carousel.model')
 
-carouselRouter.post('/',async(req,res)=>{
-    const body = req.body
-    
-    await carouselModel.insertMany({...body})
-       
-    return res.status(201).send("carousel added")
-})
+
 carouselRouter.get('/',async(req,res)=>{
-    const body = req.body
-    
-    let data = await carouselModel.find({})
+   
+ try{
+    let data = await carouselModel.find({}, null, {sort:{"updatedAt":-1}})
        
     return res.status(201).send(data)
+}
+catch(e){
+    
+    return res.status(404).send(e.message)
+ }
 })
 
 
