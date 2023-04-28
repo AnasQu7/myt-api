@@ -15,4 +15,5 @@ adminRouter.use("/collections",collectionRouter)
 adminRouter.use("/types",admTypesRouter)
 
 
+
 module.exports = adminRouter

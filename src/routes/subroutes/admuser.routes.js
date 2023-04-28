@@ -32,6 +32,16 @@ admuserRouter.get('/allusers',async(req,res)=>{
         return res.status(500).send("session expired")
     }
 })
-
+admuserRouter.delete('/:id',async(req,res)=>{
+    const {id} = req.params
+        try {
+            await UserModel.findByIdAndDelete({_id:id})
+            return res.status(201).send("deleted")
+        } catch (error) {
+            
+            return res.status(404).send(data)
+        }
+   
+})
 
 module.exports = admuserRouter
