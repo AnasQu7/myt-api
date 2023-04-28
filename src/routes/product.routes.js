@@ -29,10 +29,63 @@ productRouter.post('/',async(req,res)=>{
 })
 productRouter.get('/',async(req,res)=>{
     const body = req.body
-    
-    let data = await productModel.find({}, null, {sort:{"updatedAt":-1}})
+   try{ 
+       const query = req.query
+       console.log(query)
+    if(query.search){
+        
+        if(query.limit){
+        
+            let s = query.search.toString()
+            let data = await productModel.find({
+                $or: [
+                    {"type" : {'$regex' : s , $options : 'i'}},
+                    {"title" : {'$regex' : s , $options : 'i'}},
+                    {"description" : {'$regex' : s , $options : 'i'}},
+                    {"sizes" : {'$regex' : s , $options : 'i'}},
+                    {"productcode" : {'$regex' : s , $options : 'i'}},
+                  ]
+            }, null, {sort:{"updatedAt":-1}}).limit(query.limit)
+            return res.status(201).send(data)
+
+
+        }else{
+
+             let s = query.search.toString()
+            
+            let data = await productModel.find({
+                $or: [
+                {"title" : {'$regex' : s , $options : 'i'}},
+                {"productcode" : {'$regex' : s , $options : 'i'}},
+                {"description" : {'$regex' : s , $options : 'i'}},
+                {"sizes" : {'$regex' : s , $options : 'i'}},
+                {"type" : {'$regex' : s , $options : 'i'}},
+                {"collect" : {'$regex' : s , $options : 'i'}},
+              ]
+            }, null, {sort:{"updatedAt":-1}})
+            return res.status(201).send(data)
+
+        }
+    }
+    else if(query.type){
+        let data = await productModel.find({type : query.type}, null, {sort:{"updatedAt":-1}})
+        return res.status(201).send(data)
+    }
+    else if(query.collection){
        
-    return res.status(201).send(data)
+        let data = await productModel.find({collect : query.collection}, null, {sort:{"updatedAt":-1}})
+        return res.status(201).send(data)
+    }
+    else{
+
+        let data = await productModel.find({}, null, {sort:{"updatedAt":-1}})
+        return res.status(201).send(data)
+    }
+}catch(e){
+    
+    return res.status(500).send(e.message)
+}
+
 })
 productRouter.get('/:id',async(req,res)=>{
     const {id} = req.params
