@@ -105,8 +105,11 @@ productRouter.get('/:id',async(req,res)=>{
         }
     }
     let data = await productModel.findById(id)
-       
-    return res.status(201).send(data)
+     if(data){
+         return res.status(201).send(data)
+     }else{
+        return res.status(404).send("not found")
+     }
 })
 productRouter.post('/addtoliked',async(req,res)=>{
     const token = req.headers["authorization"]
