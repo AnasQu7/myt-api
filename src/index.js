@@ -7,7 +7,10 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const adminRouter = require('./routes/admin.routes')
+const emailRouter = require('./routes/email.routes')
 const AuthCheck = require('./utils/middlewares/AuthCheck')
+const dotenv = require("dotenv")
+dotenv.config()
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
@@ -17,6 +20,7 @@ app.use('/user',userRouter)
 app.use('/carousel',carouselRouter)
 app.use('/types',typeRouter)
 app.use('/products',productRouter)
+app.use('/email',emailRouter)
 
 
 // admin use
